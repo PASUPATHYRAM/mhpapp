@@ -98,3 +98,10 @@ class Response_model_park_pdf(BaseModel):
     zip: int
     address:MhpAddress_schema
 
+class UserRegisterSchema(BaseModel):
+    name: str
+    password: str
+    admin: bool
+
+
+

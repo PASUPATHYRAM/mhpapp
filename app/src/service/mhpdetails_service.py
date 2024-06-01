@@ -371,7 +371,23 @@ async def csv_data_reader_handler(file: UploadFile,db:Session,schema:Type[BaseMo
                                          'Old_records':len(existing_data)}]}}
 
 
+def newusercreation(data:UserRegisterSchema,db:Session):
 
+    try:
+        check_exisitng=db.query(UserRegister).filter(UserRegister.name==data.name).first()
+        if check_exisitng:
+            raise HTTPException(status_code=409,detail="Username Exist ! Please try different one")
+        else:
+            user_data=UserRegister(name=data.name, admin=data.admin)
+            user_data.hasing_pass(data.password)
+            db.add(user_data)
+            db.commit()
+            return {"Message":"Data added"}
+    except Exception as e:
+        print(f"An error ocuurec {e}")
+        raise
+    finally:
+        db.close()
 
 
 

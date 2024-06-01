@@ -18,9 +18,6 @@ class MhpDetails(Base):
 
     park_details_rel=relationship('Mhpcontact',back_populates='park_contact_rel')
 
-
-
-
     @validates('state')
     def state_convert(self,key,state):
         return state.upper()
@@ -53,7 +50,15 @@ class Mhpcontact(Base):
             else:
                 raise "Invalid phone number"
 
+class UserRegister(Base):
+    __tablename__ = 'users'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    pass_hash = Column(String, nullable=False)
+    admin = Column(Boolean, default=False)
 
+    def hasing_pass(self, value):
+        self.pass_hash = pbkdf2_sha256.hash(value)
 
 
 

@@ -72,6 +72,10 @@ def get_parkdetails_by_name(name: str,db:Session=Depends(get_db)):
     return generate_pdf(converter_parkname(query_parkname(name,db)),Response_model_park_pdf)
 
 
+router2=APIRouter(prefix='/user',tags=['Registration'])
 
+@router2.post('/createuser',response_model=Dict)
+def create_user(userdata: UserRegisterSchema=Body(...),db:Session=Depends(get_db)):
+    return newusercreation(userdata,db)
 
 
